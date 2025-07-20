@@ -1,7 +1,7 @@
 # Use official Node.js image
 FROM node:18
 
-# Set working directory
+# Set working directory in the container
 WORKDIR /app
 
 # Copy package.json and install deps

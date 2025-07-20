@@ -1,7 +1,11 @@
+# ! Run my entire app: the backend + the MongoDB database + connect them + pass all environment variables.
+
+#  Docker Compose syntax version
 version: '3.8'
 
 services:
   backend:
+  # Build backend Docker image from Dockerfile in the current folder
     build: .
     ports:
       - "5000:5000"
@@ -12,6 +16,7 @@ services:
       - MONGO_URI=mongodb://mongo:27017/dev-blog
       - JWT_SECRET=your_jwt_secret
       - NODE_ENV=development
+      # Run mongo container before starting backend
     depends_on:
       - mongo
 
@@ -20,8 +25,12 @@ services:
     restart: always
     ports:
       - "27017:27017"
+      # Persists MongoDB data even if the container restarts
+      # !This ensures your data (posts, users) is not lost when container stops.
     volumes:
       - mongo-data:/data/db
-
+# It’s mapped to MongoDB’s /data/db, so database files are stored outside the container.
+# Prevents data loss if you restart or delete the container.
 volumes:
   mongo-data:
+
